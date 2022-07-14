@@ -1,0 +1,53 @@
+<div class="mb-0 text-right" style="vertical-align: top">
+  <p style="display: inline" class="text-muted">
+    {{ VariablesSistema.NombreProyecto }}
+  </p>
+  &nbsp;
+
+  <p
+    style="display: inline; cursor: pointer"
+    class="text-warning"
+    (click)="CambiarNombreOrigen()"
+  >
+    Origen:
+  </p>
+  <p
+    style="display: inline; cursor: pointer"
+    class="text-muted"
+    (click)="CambiarNombreOrigen()"
+  >
+    {{ VariablesSistema.Indice }}
+  </p>
+  &nbsp;
+  <p
+    style="display: inline; cursor: pointer"
+    class="text-warning"
+    (click)="CambiarMes()"
+  >
+    Mes:
+  </p>
+  <p
+    style="display: inline; cursor: pointer"
+    class="text-muted"
+    (click)="CambiarMes()"
+  >
+    {{ VariablesSistema.Mes }}
+  </p>
+
+  &nbsp;
+  <p
+    style="display: inline; cursor: pointer"
+    class="text-warning"
+    (click)="CambiarAno()"
+  >
+    Año:
+  </p>
+  <p
+    style="display: inline; cursor: pointer"
+    class="text-muted"
+    (click)="CambiarAno()"
+  >
+    {{ VariablesSistema.Ano }}
+  </p>
+  &nbsp; &nbsp;
+</div>

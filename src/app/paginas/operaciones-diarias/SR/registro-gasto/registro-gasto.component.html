@@ -1,0 +1,938 @@
+<div class="header bg-default pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0">Registro de Gasto</h6>
+
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <a [routerLink]="['/Administrador/Inicio']">
+                  <i class="fas fa-home"> </i>
+                </a>
+              </li>
+
+              <li class="breadcrumb-item">
+                <a> Operaciones Diarias </a>
+              </li>
+              <li class="breadcrumb-item">
+                <a
+                  [routerLink]="[
+                    '/Administrador/OperacionesDiarias/SolicitudesMes'
+                  ]"
+                >
+                  Solicitudes del Mes
+                </a>
+              </li>
+
+              <li class="breadcrumb-item">
+                <a
+                  [routerLink]="[
+                    '/Administrador/OperacionesDiarias/Rendicion',
+                    Id_SR
+                  ]"
+                >
+                  Rendición de Gasto
+                </a>
+              </li>
+
+              <li aria-current="page" class="breadcrumb-item active">
+                Registro de Gasto
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card-wrapper">
+        <div class="card">
+          <div class="card-header">
+            <app-menu-estatico></app-menu-estatico>
+            <div class="d-flex justify-content-start col-md-12">
+              <p>S/R N°</p>
+              &nbsp;
+              <p class="text-danger">{{ '000' + NumeroSolicitud }}</p>
+              &nbsp;&nbsp;&nbsp;
+              <p>-</p>
+              &nbsp;&nbsp;&nbsp;
+              <P class="text-success">{{ TituloRegistro | uppercase }}</P>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <form
+              [formGroup]="formaOperacion"
+              novalidate="novalidate"
+              (keydown.enter)="$event.preventDefault()"
+            >
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label class="form-control-label" for="example3cols2Input">
+                      Concepto General
+                    </label>
+
+                    <input
+                      class="form-control"
+                      id="example3cols2Input"
+                      placeholder="Descripción"
+                      type="text"
+                      formControlName="DescripcionOperacion"
+                      autocomplete="off"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="form-control-label" for="example3cols2Input">
+                      Tipo de Cambio
+                    </label>
+
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"
+                          >S/
+                        </span>
+                      </div>
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Tipo de Cambio"
+                        aria-label="Username"
+                        aria-describedby="basic-addon1"
+                        formControlName="TC"
+                        autocomplete="off"
+                        (focusout)="CalcularCambioTC($event.srcElement.value)"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="example3cols2Input">
+                      Medio de Pago
+                    </label>
+                    <select
+                      class="form-control"
+                      id="exampleFormControlSelect1"
+                      formControlName="Codigo_MedioPago"
+                    >
+                      <option
+                        *ngFor="let MedioPago of MedioPagos"
+                        [value]="MedioPago.Codigo_MedioPago"
+                      >
+                        {{
+                          MedioPago.Codigo_MedioPago +
+                            ' | ' +
+                            MedioPago.Descripcion
+                        }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="form-control-label" for="example3cols2Input">
+                      Cheque
+                    </label>
+
+                    <input
+                      class="form-control"
+                      id="example3cols2Input"
+                      placeholder="Cheque"
+                      type="text"
+                      formControlName="ChequeSoles"
+                      autocomplete="off"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="form-control-label" for="example3cols1Input">
+                      Fecha
+                    </label>
+
+                    <input
+                      class="form-control"
+                      id="example3cols1Input"
+                      placeholder="One of three cols"
+                      type="text"
+                      type="date"
+                      [min]="PrimerDia"
+                      [max]="UltimoDia"
+                      formControlName="FechaComprobante"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="example3cols2Input">
+                      Tipo de Documento
+                    </label>
+                    <select
+                      class="form-control"
+                      id="exampleFormControlSelect1"
+                      formControlName="Codigo_TipoDocumento"
+                      (change)="FiltrarTipoRegistro($event.target.value)"
+                    >
+                      <option
+                        *ngFor="let TipoDocumento of TipoDocumentos"
+                        [value]="TipoDocumento.Codigo_TipoDocumento"
+                      >
+                        {{
+                          TipoDocumento.Codigo_TipoDocumento +
+                            ' | ' +
+                            TipoDocumento.Descripcion
+                        }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="example3cols2Input">
+                      Tipo de Registro
+                    </label>
+                    <select
+                      class="form-control"
+                      id="exampleFormControlSelect1"
+                      formControlName="Codigo_TipoRegistro"
+                      (change)="ActualizarMontoTipoRegistro()"
+                    >
+                      <option
+                        *ngFor="let TipoRegistro of TipoRegistros"
+                        [value]="TipoRegistro.Codigo_TipoRegistro"
+                      >
+                        {{
+                          TipoRegistro.Codigo_TipoRegistro +
+                            ' | ' +
+                            TipoRegistro.Descripcion
+                        }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="form-control-label" for="example3cols2Input">
+                      Serie
+                    </label>
+
+                    <input
+                      class="form-control"
+                      id="example3cols2Input"
+                      placeholder="Serie"
+                      type="text"
+                      formControlName="SerieComprobante"
+                      autocomplete="off"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="form-control-label" for="example3cols2Input">
+                      Número
+                    </label>
+
+                    <input
+                      class="form-control"
+                      id="example3cols2Input"
+                      placeholder="Número"
+                      type="text"
+                      formControlName="NumeroComprobante"
+                      autocomplete="off"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row justify-content-md-center">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="example3cols3Input">
+                      Auxiliar
+                    </label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder=" Auxiliar"
+                        aria-label=" Auxiliar"
+                        aria-describedby="button-addon2"
+                        formControlName="RUCAuxiliar"
+                        autocomplete="off"
+                        [readonly]="true"
+                      />
+                      <button
+                        class="btn btn-default"
+                        type="button"
+                        id="button-addon2"
+                        (click)="BuscarAuxiliar(modalBuscarAuxiliar)"
+                      >
+                        <span class="btn-inner--icon"
+                          ><i class="fas fa-search"></i
+                        ></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="example3cols3Input">
+                      Cuenta Contable
+                    </label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Cuenta Contable"
+                        aria-label="Cuenta"
+                        aria-describedby="button-addon2"
+                        formControlName="Codigo_PlanCuenta"
+                        autocomplete="off"
+                        [readonly]="true"
+                      />
+                      <button
+                        class="btn btn-default"
+                        type="button"
+                        id="button-addon2"
+                        (click)="
+                          BuscarPlanContableModal(modalBuscarPlanContable)
+                        "
+                      >
+                        <span class="btn-inner--icon"
+                          ><i class="fas fa-search"></i
+                        ></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="form-control-label" for="example3cols2Input">
+                      Código Plan de Proyecto
+                    </label>
+
+                    <input
+                      class="form-control"
+                      id="example3cols2Input"
+                      placeholder="Serie"
+                      type="text"
+                      formControlName="Codigo_PlanProyecto"
+                      autocomplete="off"
+                      [readonly]="true"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="form-control-label" for="example3cols2Input">
+                      Monto
+                    </label>
+
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"
+                          >S/
+                        </span>
+                      </div>
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Monto"
+                        aria-label="Username"
+                        aria-describedby="basic-addon1"
+                        formControlName="DebeSoles"
+                        autocomplete="off"
+                        (focusout)="CalcularDebeSoles($event.srcElement.value)"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-12">
+      <div class="card-wraper">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="d-flex justify-content-between">
+                <button
+                  mat-raised-button
+                  type="button"
+                  class="btn btn-sm btn-outline-success"
+                  (click)="GuardarOperacion()"
+                >
+                  {{ Id_Operacion > 0 ? 'Modificar item' : 'Agregar item' }}
+                </button>
+              </div>
+              <div class="table-responsive">
+                <br />
+                <table class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                    <tr>
+                      <th class="sort" data-sort="name" scope="col">Fecha</th>
+
+                      <th class="sort" data-sort="budget" scope="col">
+                        Cuenta
+                      </th>
+
+                      <th class="sort" data-sort="status" scope="col">Doc.</th>
+
+                      <th scope="col">Número</th>
+
+                      <th class="sort" data-sort="completion" scope="col">
+                        Razón Social
+                      </th>
+
+                      <th class="sort" data-sort="completion" scope="col">
+                        Monto
+                      </th>
+
+                      <th class="sort" data-sort="completion" scope="col">
+                        Acciones
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody class="list">
+                    <tr mdbTableCol *ngFor="let dato of Datos">
+                      <td>
+                        {{ dato.FechaOperacion | date: 'dd/MM/yyyy':'UTC' }}
+                      </td>
+                      <td>{{ dato.Codigo_PlanCuenta }}</td>
+                      <td>
+                        {{ dato.Codigo_TipoDocumento }}
+                      </td>
+                      <td>{{ dato.NumeroComprobante }}</td>
+                      <td>{{ dato.RazonSocial }}</td>
+                      <td>{{ dato.MontoSoles | number: '1.2-2' }}</td>
+                      <td>
+                        <a
+                          class="btn btn-link btn-just-icon like"
+                          title="Editar Operación"
+                          (click)="CargarOperacion(dato)"
+                          style="cursor: pointer"
+                          ><i class="fa-solid fa-pencil"></i
+                        ></a>
+                        <a
+                          class="btn btn-link btn-just-icon like"
+                          title="Editar Operación"
+                          (click)="EliminarOperacion(dato.Id_Operacion)"
+                          style="cursor: pointer"
+                          ><i class="fa-solid fa-trash-can text-danger"></i
+                        ></a>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td></td>
+                      <td style="font-weight: bold"></td>
+                      <td style="font-weight: bold"></td>
+                      <td style="font-weight: bold"></td>
+                      <td style="font-weight: bold">TOTAL</td>
+                      <td style="font-weight: bold">
+                        {{ TotalOperacion | number: '1.2-2' }}
+                      </td>
+                      <td></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-md-12">
+                <div class="d-flex justify-content-between">
+                  <div class="d-flex">
+                    <p class="text-primary">Presupuesto:</p>
+                    &nbsp;
+                    <p>{{ Presupuesto | number: '1.2-2' }}</p>
+                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                    <p class="text-primary">Saldo Restante:</p>
+                    &nbsp;
+                    <!-- <p>
+                            {{ Saldo | number: '1.2-2' }}
+                          </p> -->
+
+                    <p *ngIf="Saldo === 0">
+                      {{ Saldo | number: '1.2-2' }}
+                    </p>
+
+                    <p *ngIf="Saldo > 0" class="text-success">
+                      {{ Saldo | number: '1.2-2' }}
+                    </p>
+
+                    <p *ngIf="Saldo < 0" class="text-danger">
+                      {{ Saldo | number: '1.2-2' }}
+                    </p>
+                  </div>
+                  <div class="d-flex justify-content-end">
+                    <button
+                      class="btn btn-icon btn-3 btn-primary"
+                      type="button"
+                      [routerLink]="[
+                        '/Administrador/OperacionesDiarias/Rendicion',
+                        Id_SR
+                      ]"
+                    >
+                      <span class="btn-inner--icon"
+                        ><i class="fa-solid fa-arrow-rotate-left"></i
+                      ></span>
+                      <span class="btn-inner--text">Regresar</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <pre>{{ formaOperacionPrincipal.value | json }}</pre>
+    <br />
+    <pre>{{ formaOperacion.value | json }}</pre> -->
+</div>
+
+<!-- Modal Buscar Auxiliar-->
+<ng-template #modalBuscarAuxiliar>
+  <div class="modal-body p-0">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="mb-0">Buscar Auxiliares</h3>
+          </div>
+          <div class="dataTables_wrapper py-4">
+            <div class="row">
+              <div class="col-sm-12 col-md-4">
+                <div id="datatable_filter" class="dataTables_filter">
+                  <label>
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="Buscar..."
+                      aria-controls="datatable"
+                      (keyup)="filterBuscarAuxiliar($event)"
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <ngx-datatable
+              class="bootstrap selection-cell"
+              style="cursor: pointer"
+              [columnMode]="'force'"
+              [headerHeight]="50"
+              [footerHeight]="0"
+              [rowHeight]="'auto'"
+              [limit]="entries != -1 ? entries : undefined"
+              [rows]="tablaAuxiliar"
+              [messages]="{
+                emptyMessage: 'No se encontraron registros'
+              }"
+              [selected]="selected"
+              [selectionType]="SelectionType.single"
+              (select)="onSelectBuscarAuxiliar($event)"
+            >
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>RUC</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.RUC }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Razón Social</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.RazonSocial }}
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="AbrirModalSunat(modalFormSUNAT)"
+    >
+      Nuevo Auxiliar
+    </button>
+    <button
+      type="button"
+      class="btn btn-secondary"
+      data-dismiss="modal"
+      (click)="formModalBuscarAuxiliares.hide()"
+    >
+      Cancelar
+    </button>
+  </div>
+</ng-template>
+
+<!-- Formulario SUNAT -->
+<ng-template #modalFormSUNAT>
+  <div class="modal-body p-0">
+    <div class="card bg-secondary border-0 mb-0">
+      <div class="card-body px-lg-5 py-lg-5">
+        <div class="text-center text-muted mb-4">
+          <h3>Nuevo Auxiliar</h3>
+        </div>
+
+        <form
+          [formGroup]="formaAuxiliar"
+          novalidate="novalidate"
+          (keydown.enter)="$event.preventDefault()"
+        >
+          <div class="form-group mb-3" [ngClass]="{ focused: focus === true }">
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fa-solid fa-id-badge"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                placeholder="DNI / RUC"
+                type="text"
+                (focus)="focus = true"
+                (blur)="focus = false"
+                formControlName="RUC"
+                autocomplete="off"
+              />
+            </div>
+            <div class="text-center">
+              <button
+                type="button"
+                class="btn btn-primary my-4"
+                (click)="BuscarAuxiliarSUNAT()"
+              >
+                Importar de SUNAT
+              </button>
+              <hr />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-control-label" for="example3cols2Input">
+              Tipo de Documento de Identidad
+            </label>
+            <select
+              class="form-control"
+              id="exampleFormControlSelect1"
+              formControlName="Codigo_TipoDocumentoIdentidad"
+            >
+              <option
+                *ngFor="let TipoDocumento of TipoDocumentoIdentidad"
+                [value]="TipoDocumento.Codigo_TipoDocumentoIdentidad"
+              >
+                {{
+                  TipoDocumento.Codigo_TipoDocumentoIdentidad +
+                    ' | ' +
+                    TipoDocumento.Descripcion
+                }}
+              </option>
+            </select>
+          </div>
+
+          <div
+            class="form-group"
+            *ngIf="
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '0' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '1' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '4' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '7' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '11' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                'A'
+            "
+          >
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fa-solid fa-square-pen"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                placeholder="Apellido Paterno"
+                type="text"
+                formControlName="ApellidoPaterno"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div
+            class="form-group"
+            *ngIf="
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '0' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '1' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '4' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '7' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '11' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                'A'
+            "
+          >
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fa-solid fa-square-pen"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                placeholder="Apellido Materno"
+                type="text"
+                formControlName="ApellidoMaterno"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div
+            class="form-group"
+            *ngIf="
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '0' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '1' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '4' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '7' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '11' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                'A'
+            "
+          >
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fa-solid fa-square-pen"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                placeholder="Nombres"
+                type="text"
+                formControlName="Nombres"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div
+            class="form-group"
+            *ngIf="
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '0' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '1' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '4' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '7' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '11' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                'A'
+            "
+          >
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fa-solid fa-location-dot"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                placeholder="Dirección"
+                type="text"
+                formControlName="Direccion"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fa-solid fa-building"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                placeholder="Razón Social"
+                type="text"
+                formControlName="RazonSocial"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div
+            class="form-group"
+            *ngIf="
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+              '6'
+            "
+          >
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fa-solid fa-location-dot"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                placeholder="Dirección"
+                type="text"
+                formControlName="Direccion"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div class="text-center">
+            <button
+              type="button"
+              class="btn btn-primary my-4"
+              (click)="BuscarAuxiliarLocal()"
+            >
+              Guardar
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary my-4"
+              (click)="formModal.hide()"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Modal Buscar Plan Proyecto -->
+<ng-template #modalBuscarPlanContable>
+  <div class="modal-body p-0">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="mb-0">Buscar Plan de Contable</h3>
+          </div>
+          <div class="dataTables_wrapper py-4">
+            <div class="row">
+              <div class="col-sm-12 col-md-4">
+                <div id="datatable_filter" class="dataTables_filter">
+                  <label>
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="Buscar..."
+                      aria-controls="datatable"
+                      (keyup)="filterBuscarPlanContable($event)"
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <ngx-datatable
+              class="bootstrap selection-cell"
+              style="cursor: pointer"
+              [columnMode]="'force'"
+              [headerHeight]="50"
+              [footerHeight]="0"
+              [rowHeight]="'auto'"
+              [limit]="entries != -1 ? entries : undefined"
+              [rows]="tablaPlanContable"
+              [messages]="{
+                emptyMessage: 'No se encontraron registros'
+              }"
+              [selected]="selected"
+              [selectionType]="SelectionType.single"
+              (select)="onSelectBuscarPlanContable($event)"
+            >
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Código Plan de Cuenta</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.Codigo_PlanCuenta }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Descripción</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.Nombre_PlanCuenta }}
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      data-dismiss="modal"
+      (click)="formModalPlanContable.hide()"
+    >
+      Cancelar
+    </button>
+  </div>
+</ng-template>

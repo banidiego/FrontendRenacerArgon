@@ -1,46 +1,46 @@
-import { Routes } from "@angular/router";
+import { Routes } from '@angular/router';
 
-import { LoginComponent } from "../../pages/examples/login/login.component";
-import { PricingComponent } from "../../pages/examples/pricing/pricing.component";
-import { LockComponent } from "../../pages/examples/lock/lock.component";
-import { RegisterComponent } from "../../pages/examples/register/register.component";
-import { PresentationComponent } from "../../pages/presentation/presentation.component";
+import { PricingComponent } from '../../pages/examples/pricing/pricing.component';
+import { LockComponent } from '../../pages/examples/lock/lock.component';
+import { RegisterComponent } from '../../pages/examples/register/register.component';
+import { PresentationComponent } from '../../pages/presentation/presentation.component';
+import { LoginComponent } from 'src/app/paginas/login/login.component';
 
 export const AuthLayoutRoutes: Routes = [
   {
-    path: "",
+    path: '',
     children: [
       {
-        path: "login",
-        component: LoginComponent
-      }
-    ]
+        path: 'login',
+        component: LoginComponent,
+      },
+    ],
   },
   {
-    path: "",
+    path: '',
     children: [
       {
-        path: "lock",
-        component: LockComponent
-      }
-    ]
+        path: 'lock',
+        component: LockComponent,
+      },
+    ],
   },
   {
-    path: "",
+    path: '',
     children: [
       {
-        path: "register",
-        component: RegisterComponent
-      }
-    ]
+        path: 'register',
+        component: RegisterComponent,
+      },
+    ],
   },
   {
-    path: "",
+    path: '',
     children: [
       {
-        path: "pricing",
-        component: PricingComponent
-      }
-    ]
-  }
+        path: 'pricing',
+        component: PricingComponent,
+      },
+    ],
+  },
 ];

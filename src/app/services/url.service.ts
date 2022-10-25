@@ -7,7 +7,7 @@ export class UrlService {
   URL: string;
 
   constructor() {
-    this.URL = 'http://localhost:3000';
-    // this.URL = 'https://backend-renacer-administracion.herokuapp.com';
+    // this.URL = 'http://localhost:3000';
+    this.URL = 'https://backend-renacer-administracion.herokuapp.com';
   }
 }

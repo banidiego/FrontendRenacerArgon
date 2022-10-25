@@ -2377,6 +2377,7 @@ export class RegistroGastoComponent implements OnInit {
 
   // BuscarAuxiliar
   BuscarAuxiliar(modalForm: TemplateRef<any>) {
+    this.cargarAuxiliares();
     this.formModalBuscarAuxiliares = this.modalService.show(modalForm, {
       class: 'modal-lg',
     });
@@ -2506,6 +2507,7 @@ export class RegistroGastoComponent implements OnInit {
         });
       } else {
         this.GuardarAuxiliar();
+        this.formModalSUNAT.hide();
       }
     });
   }
@@ -2523,6 +2525,7 @@ export class RegistroGastoComponent implements OnInit {
           'success'
         );
         this.CargarTabla();
+        this.cargarAuxiliares();
       });
   }
 
@@ -2539,6 +2542,7 @@ export class RegistroGastoComponent implements OnInit {
           'success'
         );
         this.CargarTabla();
+        this.cargarAuxiliares();
       });
   }
 

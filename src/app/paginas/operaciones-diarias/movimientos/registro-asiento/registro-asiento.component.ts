@@ -1597,6 +1597,7 @@ export class RegistroAsientoComponent implements OnInit {
   // ==========================================
   // ResponsableGIro
   BuscarAuxiliarResponsableGiro(modalForm: TemplateRef<any>) {
+    this.cargarAuxiliares();
     this.formModalBuscarResponsableGiro = this.modalService.show(modalForm, {
       class: 'modal-lg',
     });
@@ -1632,6 +1633,7 @@ export class RegistroAsientoComponent implements OnInit {
 
   // BuscarAuxiliar
   BuscarAuxiliar(modalForm: TemplateRef<any>) {
+    this.cargarAuxiliares();
     this.formModalBuscarAuxiliares = this.modalService.show(modalForm, {
       class: 'modal-lg',
     });
@@ -1777,6 +1779,7 @@ export class RegistroAsientoComponent implements OnInit {
           'success'
         );
         this.CargarTabla();
+        this.cargarAuxiliares();
       });
   }
 
@@ -1793,6 +1796,7 @@ export class RegistroAsientoComponent implements OnInit {
           'success'
         );
         this.CargarTabla();
+        this.cargarAuxiliares();
       });
   }
 
@@ -1823,6 +1827,7 @@ export class RegistroAsientoComponent implements OnInit {
         });
       } else {
         this.GuardarAuxiliar();
+        this.formModalSUNAT.hide();
       }
     });
   }

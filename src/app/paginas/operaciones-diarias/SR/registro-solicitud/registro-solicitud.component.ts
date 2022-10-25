@@ -1385,6 +1385,7 @@ export class RegistroSolicitudComponent implements OnInit {
   }
 
   BuscarAuxiliar(modalForm: TemplateRef<any>) {
+    this.cargarAuxiliares();
     this.formModalBuscarAuxiliares = this.modalService.show(modalForm, {
       class: 'modal-lg',
     });
@@ -1535,6 +1536,7 @@ export class RegistroSolicitudComponent implements OnInit {
         });
       } else {
         this.GuardarAuxiliar();
+        this.formModalSUNAT.hide();
       }
     });
   }
@@ -1552,6 +1554,7 @@ export class RegistroSolicitudComponent implements OnInit {
           'success'
         );
         this.CargarTabla();
+        this.cargarAuxiliares();
       });
   }
 
@@ -1568,6 +1571,7 @@ export class RegistroSolicitudComponent implements OnInit {
           'success'
         );
         this.CargarTabla();
+        this.cargarAuxiliares();
       });
   }
 

@@ -47,6 +47,7 @@ export const ROUTES: RouteInfo[] = [
     children: [
       { path: 'MovimientoDiario', title: 'Movimiento Diario', type: 'link' },
       { path: 'SolicitudesMes', title: 'Solicitudes del Mes', type: 'link' },
+      { path: 'CajaChica', title: 'Caja Chica', type: 'link' },
     ],
   },
   {

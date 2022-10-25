@@ -17,7 +17,7 @@ export class AuthService {
 
   Login(DatosSesion: any) {
     return this.http.post(`${this.url}`, DatosSesion).pipe(
-      map((resp: any) => {
+      map((resp: { ok: boolean; Usuario: any; token: any }) => {
         this.VariablesSesion = {
           Id_Usuario: resp.Usuario[0].Id_Usuario,
           Nombres: resp.Usuario[0].Nombres,
@@ -30,11 +30,31 @@ export class AuthService {
           'VariablesSesion',
           JSON.stringify(this.VariablesSesion)
         );
-
-        return resp;
       })
     );
   }
+
+  // Login(DatosSesion: any) {
+  //   return this.http.post(`${this.url}`, DatosSesion).pipe(
+  //     map((resp: any) => {
+  //       this.VariablesSesion = {
+  //         Id_Usuario: resp.Usuario[0].Id_Usuario,
+  //         Nombres: resp.Usuario[0].Nombres,
+  //         Imagen: resp.Usuario[0].Imagen,
+  //         Id_TipoUsuario: resp.Usuario[0].Id_TipoUsuario,
+  //         Token: resp.token,
+  //       };
+
+  //       localStorage.setItem(
+  //         'VariablesSesion',
+  //         JSON.stringify(this.VariablesSesion)
+  //       );
+
+  //       return resp;
+  //     }),
+  //     catchError((error) => '')
+  //   );
+  // }
 
   ValidarToken(): Observable<boolean> {
     const token = this.VariablesSesion.Token || '';

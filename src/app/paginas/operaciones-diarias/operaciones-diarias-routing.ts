@@ -7,6 +7,7 @@ import { RegistroSolicitudComponent } from './SR/registro-solicitud/registro-sol
 import { RendicionComponent } from './SR/rendicion/rendicion.component';
 import { RegistroGastoComponent } from './SR/registro-gasto/registro-gasto.component';
 import { AutorizacionesMesComponent } from './autorizaciones/autorizaciones-mes/autorizaciones-mes.component';
+import { ResumenMesComponent } from './caja-chica/resumen-mes/resumen-mes.component';
 
 export const OperacionesDiariasRoutes: Routes = [
   {
@@ -63,6 +64,20 @@ export const OperacionesDiariasRoutes: Routes = [
       {
         path: 'AutorizacionesMes',
         component: AutorizacionesMesComponent,
+      },
+    ],
+  },
+
+  {
+    path: '',
+    children: [
+      {
+        path: 'CajaChica',
+        component: ResumenMesComponent,
+      },
+      {
+        path: 'Detalle-Caja-Chica',
+        component: RegistroSolicitudComponent,
       },
     ],
   },

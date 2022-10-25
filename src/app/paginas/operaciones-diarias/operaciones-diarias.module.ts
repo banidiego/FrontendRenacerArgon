@@ -26,6 +26,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { NgxPrintModule } from 'ngx-print';
 import { CompartidoModule } from '../compartido/compartido.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { ResumenMesComponent } from './caja-chica/resumen-mes/resumen-mes.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     RegistroSolicitudComponent,
     RendicionComponent,
     SolicitudesMesComponent,
+    ResumenMesComponent,
   ],
   imports: [
     CommonModule,

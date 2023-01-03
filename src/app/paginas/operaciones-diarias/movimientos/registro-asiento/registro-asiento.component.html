@@ -666,11 +666,11 @@
                       <th>{{ dato.Codigo_PlanCuenta }}</th>
                       <td>{{ dato.RazonSocial }}</td>
                       <td>
-                        {{ dato.DebeSoles | number: '1.2-2' }}
+                        {{ dato.DebeSoles | number : '1.2-2' }}
                       </td>
-                      <td>{{ dato.HaberSoles | number: '1.2-2' }}</td>
-                      <td>{{ dato.DebeDolares | number: '1.2-2' }}</td>
-                      <td>{{ dato.HaberDolares | number: '1.2-2' }}</td>
+                      <td>{{ dato.HaberSoles | number : '1.2-2' }}</td>
+                      <td>{{ dato.DebeDolares | number : '1.2-2' }}</td>
+                      <td>{{ dato.HaberDolares | number : '1.2-2' }}</td>
                       <td>
                         <a
                           class="btn btn-link btn-just-icon like"
@@ -692,16 +692,16 @@
                       <td></td>
                       <td style="font-weight: bold">TOTAL</td>
                       <td style="font-weight: bold">
-                        {{ SumaTotalDebeSoles() | number: '1.2-2' }}
+                        {{ SumaTotalDebeSoles() | number : '1.2-2' }}
                       </td>
                       <td style="font-weight: bold">
-                        {{ SumaTotalHaberSoles() | number: '1.2-2' }}
+                        {{ SumaTotalHaberSoles() | number : '1.2-2' }}
                       </td>
                       <td style="font-weight: bold">
-                        {{ SumaTotalDebeDolares() | number: '1.2-2' }}
+                        {{ SumaTotalDebeDolares() | number : '1.2-2' }}
                       </td>
                       <td style="font-weight: bold">
-                        {{ SumaTotalHaberDolares() | number: '1.2-2' }}
+                        {{ SumaTotalHaberDolares() | number : '1.2-2' }}
                       </td>
                       <td></td>
                     </tr>
@@ -768,7 +768,7 @@
               style="cursor: pointer"
               [columnMode]="'force'"
               [headerHeight]="50"
-              [footerHeight]="0"
+              [footerHeight]="50"
               [rowHeight]="'auto'"
               [limit]="entries != -1 ? entries : undefined"
               [rows]="tablaAuxiliar"

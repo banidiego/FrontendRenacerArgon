@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UrlService } from './url.service';
 import { map } from 'rxjs/operators';
+import { ProyectoModel } from '../models/Proyecto.model';
 
 @Injectable({
   providedIn: 'root',
@@ -39,27 +40,31 @@ export class ProyectoService {
   // // ==========================================
   // // Cargar Información Inicial de Origen para LocalStorage y MenuInformación
   // // ==========================================
-  // InformacionInicialOrigen(Ano: number) {
-  //   return this.http.get(`${this.url}/MenuInformacion/${Ano}`).pipe(
-  //     map((resp: any) => {
-  //       return resp.Lista;
-  //     })
-  //   );
-  // }
+  ListaProyectos() {
+    return this.http.get(`${this.url}/ListaProyectos`).pipe(
+      map((resp: any) => {
+        return resp.Proyecto;
+      })
+    );
+  }
 
-  // // ==========================================
-  // // Busca El Indice del Origen para Menu Información
-  // // ==========================================
-  // CambiarIndice(Ano: number, Nombre: string) {
-  //   return this.http.get(`${this.url}/DatosMenuInformacion/${Ano}/${Nombre}`);
-  // }
+  // Guardar Proyecto
+  GuardarProyecto(proyecto: ProyectoModel) {
+    return this.http.post(`${this.url}`, proyecto).pipe(
+      map((resp: any) => {
+        proyecto.Id_Proyecto = resp.proyecto._id;
 
-  // // ==========================================
-  // // Busca El Nombre del Origen para El Título de Movimientos del Mes
-  // // ==========================================
-  // NombreOrigen(TipoOrigen: string, Origen: string, Ano: number) {
-  //   return this.http.get(
-  //     `${this.url}/NombreOrigen/${TipoOrigen}/${Origen}/${Ano}`
-  //   );
-  // }
+        return proyecto;
+      })
+    );
+  }
+
+  // Actualizar Proyecto
+  ActualizarProyecto(proyecto: ProyectoModel) {
+    return this.http.put(`${this.url}/${proyecto.Id_Proyecto}`, proyecto).pipe(
+      map((resp: any) => {
+        return resp;
+      })
+    );
+  }
 }

@@ -113,10 +113,12 @@ export class RegistroSolicitudComponent implements OnInit {
   // ==========================================
   // Declaración de variables de SR (Para Titulo)
   // ==========================================
+  // tslint:disable-next-line: variable-name
   Id_SR: number;
   Serie: string;
   NumeroSolicitud: number;
   NumeroTexto: string;
+  // tslint:disable-next-line: variable-name
   Id_TipoDocumentoIdentidad: number; // Para Responsable de la Solicitud
 
   // ==========================================
@@ -437,7 +439,7 @@ export class RegistroSolicitudComponent implements OnInit {
       Id_SR: new FormControl(0),
       Id_DetalleSR: new FormControl(0),
       DescripcionDetalle: new FormControl(''),
-      TC: new FormControl(1),
+      TC: new FormControl(3.45),
       Codigo_MedioPago: new FormControl('009'),
       ChequeSoles: new FormControl(''),
       ChequeDolares: new FormControl(''),
@@ -619,7 +621,8 @@ export class RegistroSolicitudComponent implements OnInit {
               1
             ),
             'yyyy-MM-dd',
-            'en-GB'
+            'en-GB',
+            '+0500'
           ),
           TipoOrigen: this.TipoOrigen,
         });
@@ -969,14 +972,24 @@ export class RegistroSolicitudComponent implements OnInit {
         Serie: datos.Serie,
         Responsable: datos.Responsable,
         RUCResponsable: datos.RUCResponsable,
-        FechaSolicitud: datos.FechaSolicitud,
+        FechaSolicitud: formatDate(
+          new Date(datos.FechaSolicitud),
+          'yyyy-MM-dd',
+          'en-GB',
+          '+0500'
+        ),
         EntidadCooperante: datos.EntidadCooperante,
         Cheque: datos.Cheque,
         MonedaCheque: datos.MonedaCheque,
         ImporteCheque: datos.ImporteCheque,
         TCCheque: datos.TCCheque,
         Descripcion: datos.Descripcion,
-        FechaRendicion: datos.FechaRendicion,
+        FechaRendicion: formatDate(
+          new Date(datos.FechaRendicion),
+          'yyyy-MM-dd',
+          'en-GB',
+          '+0500'
+        ),
         Observaciones: datos.Observaciones,
         Presupuesto: datos.Presupuesto,
         NRI: datos.NRI,
@@ -992,24 +1005,6 @@ export class RegistroSolicitudComponent implements OnInit {
         Mes: datos.Mes,
         Ano: datos.Ano,
         Codigo_Proyecto: datos.Codigo_Proyecto,
-      });
-
-      // Corregir Fechas UTC
-
-      const FechaSolicitud = new Date(datos.FechaSolicitud);
-
-      // const FechaSolicitudUTC = moment(FechaSolicitud).utcOffset(0);
-
-      this.formaSR.patchValue({
-        FechaSolicitud: formatDate(
-          new Date(
-            this.VariablesSistema.Ano,
-            this.MesArray.indexOf(this.VariablesSistema.Mes),
-            1
-          ),
-          'yyyy-MM-dd',
-          'en-GB'
-        ),
       });
 
       // cargar Numero de Solicitud
@@ -1032,7 +1027,12 @@ export class RegistroSolicitudComponent implements OnInit {
         this.formaOperacionPrincipal.patchValue({
           Id_OperacionPrincipal: datos.Id_OperacionPrincipal,
           DescripcionOperacion: datos.DescripcionOperacion,
-          FechaOperacion: datos.FechaOperacion,
+          FechaOperacion: formatDate(
+            new Date(datos.FechaOperacion),
+            'yyyy-MM-dd',
+            'en-GB',
+            '+0500'
+          ),
           ResponsableGiro: datos.ResponsableGiro,
           CodigoOperacion: datos.CodigoOperacion,
           Numero: datos.Numero,
@@ -1158,7 +1158,12 @@ export class RegistroSolicitudComponent implements OnInit {
             TipoOrigen: operacion.TipoOrigen,
             CodigoOperacion: operacion.CodigoOperacion,
             DescripcionOperacion: operacion.DescripcionOperacion,
-            FechaOperacion: operacion.FechaOperacion,
+            FechaOperacion: formatDate(
+              new Date(operacion.FechaOperacion),
+              'yyyy-MM-dd',
+              'en-GB',
+              '+0500'
+            ),
             ResponsableGiro: operacion.ResponsableGiro,
             RUCResponsableGiro: operacion.RUCResponsableGiro,
             Solicitud: operacion.Solicitud,
@@ -1175,7 +1180,12 @@ export class RegistroSolicitudComponent implements OnInit {
             Codigo_TipoRegistro: operacion.Codigo_TipoRegistro,
             SerieComprobante: operacion.SerieComprobante,
             NumeroComprobante: operacion.NumeroComprobante,
-            FechaComprobante: operacion.FechaComprobante,
+            FechaComprobante: formatDate(
+              new Date(operacion.FechaComprobante),
+              'yyyy-MM-dd',
+              'en-GB',
+              '+0500'
+            ),
             RUCAuxiliar: operacion.RUCAuxiliar,
             RazonSocial: operacion.RazonSocial,
             Codigo_TipoDocumentoIdentidad:
@@ -1227,7 +1237,6 @@ export class RegistroSolicitudComponent implements OnInit {
   // Guarda DetalleSR
   // ==========================================
   GuardarDetalleSR() {
-    console.log(this.Id_DetalleSR);
     if (this.Id_DetalleSR === 0) {
       this.detalleSRService
         .GuardarDetalleSR(this.formaDetalleSR.value)
@@ -1266,7 +1275,6 @@ export class RegistroSolicitudComponent implements OnInit {
   // Cargar Forma DetalleSR al hacer Click Editar
   // ==========================================
   CargarFormaDetalleSR(detalleSR: any) {
-    console.log(detalleSR.Id_DetalleSR);
     this.Id_DetalleSR = detalleSR.Id_DetalleSR;
     this.formaDetalleSR.patchValue({
       Id_DetalleSR: this.Id_DetalleSR,
@@ -1276,8 +1284,6 @@ export class RegistroSolicitudComponent implements OnInit {
       Gasto: detalleSR.Gasto,
       Actividad: detalleSR.Actividad,
     });
-
-    console.log(this.formaDetalleSR.value);
   }
 
   // ==========================================

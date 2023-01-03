@@ -12,7 +12,12 @@ import { DetalleSRModel } from '../../../../models/DetalleSR.model';
 import { OperacionModel } from '../../../../models/Operacion.model';
 import { VariablesSistemaModel } from '../../../../models/VariablesSistema.model';
 import { FormGroup, FormControl } from '@angular/forms';
-import { DatePipe, DecimalPipe, TitleCasePipe } from '@angular/common';
+import {
+  DatePipe,
+  DecimalPipe,
+  formatDate,
+  TitleCasePipe,
+} from '@angular/common';
 import { OrigenService } from '../../../../services/origen.service';
 
 import { ProyectoService } from '../../../../services/proyecto.service';
@@ -280,7 +285,7 @@ export class RendicionComponent implements OnInit {
       ImporteCheque: new FormControl(0),
       TCCheque: new FormControl(0),
       Descripcion: new FormControl({ value: '' }),
-      FechaRendicion: new FormControl(new Date()),
+      FechaRendicion: new FormControl({ value: new Date() }),
       Observaciones: new FormControl(''),
       Presupuesto: new FormControl(0),
       NRI: new FormControl(''),
@@ -829,14 +834,24 @@ export class RendicionComponent implements OnInit {
         Serie: datos.Serie,
         Responsable: datos.Responsable,
         RUCResponsable: datos.RUCResponsable,
-        FechaSolicitud: datos.FechaSolicitud,
+        FechaSolicitud: formatDate(
+          new Date(datos.FechaSolicitud),
+          'yyyy-MM-dd',
+          'en-US',
+          '+0500'
+        ),
         EntidadCooperante: datos.EntidadCooperante,
         Cheque: datos.Cheque,
         MonedaCheque: datos.MonedaCheque,
         ImporteCheque: datos.ImporteCheque,
         TCCheque: datos.TCCheque,
         Descripcion: datos.Descripcion,
-        FechaRendicion: datos.FechaRendicion,
+        FechaRendicion: formatDate(
+          new Date(datos.FechaRendicion),
+          'yyyy-MM-dd',
+          'en-GB',
+          '+0500'
+        ),
         Observaciones: datos.Observaciones,
         Presupuesto: datos.Presupuesto,
         NRI: datos.NRI,
@@ -853,35 +868,6 @@ export class RendicionComponent implements OnInit {
         Ano: datos.Ano,
         Codigo_Proyecto: datos.Codigo_Proyecto,
       });
-
-      this.FechaSolicitud = datos.FechaSolicitud;
-
-      // Corregir Fechas UTC
-
-      const FechaSolicitud = new Date(datos.FechaSolicitud);
-      const FechaRendicion = new Date(datos.FechaRendicion);
-
-      // const FechaSolicitudUTC = moment(FechaSolicitud).utcOffset(0);
-      // const FechaRendicionUTC = moment(FechaRendicion).utcOffset(0);
-
-      // this.formaSR.patchValue({
-      //   FechaSolicitud: this.createDate(
-      //     // tslint:disable-next-line: radix
-      //     parseInt(FechaSolicitudUTC.clone().format('YYYY')),
-      //     // tslint:disable-next-line: radix
-      //     parseInt(FechaSolicitudUTC.clone().format('M')) - 1,
-      //     // tslint:disable-next-line: radix
-      //     parseInt(FechaSolicitudUTC.clone().format('D'))
-      //   ),
-      //   FechaRendicion: this.createDate(
-      //     // tslint:disable-next-line: radix
-      //     parseInt(FechaRendicionUTC.clone().format('YYYY')),
-      //     // tslint:disable-next-line: radix
-      //     parseInt(FechaRendicionUTC.clone().format('M')) - 1,
-      //     // tslint:disable-next-line: radix
-      //     parseInt(FechaRendicionUTC.clone().format('D'))
-      //   ),
-      // });
 
       this.CargarNumeroSolicitud(
         this.VariablesSistema.Ano,
@@ -912,7 +898,12 @@ export class RendicionComponent implements OnInit {
         this.formaOperacionPrincipal.patchValue({
           Id_OperacionPrincipal: datos.Id_OperacionPrincipal,
           DescripcionOperacion: datos.DescripcionOperacion,
-          FechaOperacion: datos.FechaOperacion,
+          FechaOperacion: formatDate(
+            new Date(datos.FechaOperacion),
+            'yyyy-MM-dd',
+            'en-US',
+            '+0500'
+          ),
           ResponsableGiro: datos.ResponsableGiro,
           CodigoOperacion: datos.CodigoOperacion,
           Numero: datos.Numero,
@@ -1037,7 +1028,12 @@ export class RendicionComponent implements OnInit {
           TipoOrigen: operacion.TipoOrigen,
           CodigoOperacion: operacion.CodigoOperacion,
           DescripcionOperacion: operacion.DescripcionOperacion,
-          FechaOperacion: operacion.FechaOperacion,
+          FechaOperacion: formatDate(
+            new Date(operacion.FechaOperacion),
+            'yyyy-MM-dd',
+            'en-US',
+            '+0500'
+          ),
           ResponsableGiro: operacion.ResponsableGiro,
           RUCResponsableGiro: operacion.RUCResponsableGiro,
           Solicitud: operacion.Solicitud,
@@ -1054,7 +1050,12 @@ export class RendicionComponent implements OnInit {
           Codigo_TipoRegistro: operacion.Codigo_TipoRegistro,
           SerieComprobante: operacion.SerieComprobante,
           NumeroComprobante: operacion.NumeroComprobante,
-          FechaComprobante: operacion.FechaComprobante,
+          FechaComprobante: formatDate(
+            new Date(operacion.FechaComprobante),
+            'yyyy-MM-dd',
+            'en-US',
+            '+0500'
+          ),
           RUCAuxiliar: operacion.RUCAuxiliar,
           RazonSocial: operacion.RazonSocial,
           Codigo_TipoDocumentoIdentidad:
@@ -1563,6 +1564,12 @@ export class RendicionComponent implements OnInit {
           this.formaSR.controls['MontoCC'].value,
         NCC: '',
         MontoCC: 0,
+        FechaSolicitud: formatDate(
+          new Date(this.formaSR.controls['FechaSolicitud'].value),
+          'yyyy-MM-dd',
+          'en-GB',
+          '+0500'
+        ),
       });
 
       if (this.formaOperacionSaldo.controls['Id_Operacion'].value === 0) {
@@ -1596,6 +1603,7 @@ export class RendicionComponent implements OnInit {
       this.formModalSaldo.hide();
     } else {
       // console.log('Comprobante de Caja');
+
       const Monto = this.formaSR.controls['MontoCC'].value;
       this.formaOperacionSaldo.patchValue({
         Codigo_TipoDocumento: 'CC',
@@ -1630,6 +1638,12 @@ export class RendicionComponent implements OnInit {
           this.SumaTotalGasto() +
           this.formaSR.controls['MontoRI'].value -
           this.formaSR.controls['MontoCC'].value,
+        FechaSolicitud: formatDate(
+          new Date(this.formaSR.controls['FechaSolicitud'].value),
+          'yyyy-MM-dd',
+          'en-GB',
+          '+0500'
+        ),
         NRI: '',
         MontoRI: 0,
       });
@@ -1773,18 +1787,36 @@ export class RendicionComponent implements OnInit {
   // Actualizar LibroDiarioSimplificado por Id_OperacionPrincipal
   // ==========================================
   ActualizarLibroDiarioSimplificado() {
-    this.formaSR.patchValue({
-      TotalGasto: this.SumaTotalGasto(),
-      // this.formaSR.controls['MontoRI'].value -
-      // this.formaSR.controls['MontoCC'].value,
-    });
-
     const SaldoSolicitud = (
       this.formaSR.controls['Presupuesto'].value -
       (this.SumaTotalGasto() +
         this.formaSR.controls['MontoRI'].value -
         this.formaSR.controls['MontoCC'].value)
     ).toFixed(2);
+
+    if (Number(SaldoSolicitud) === 0) {
+      this.formaSR.patchValue({
+        Rendido: 1,
+        TotalGasto: this.SumaTotalGasto(),
+        FechaSolicitud: formatDate(
+          new Date(this.formaSR.controls['FechaSolicitud'].value),
+          'yyyy-MM-dd',
+          'en-GB',
+          '+0500'
+        ),
+      });
+    } else {
+      this.formaSR.patchValue({
+        Rendido: 0,
+        TotalGasto: this.SumaTotalGasto(),
+        FechaSolicitud: formatDate(
+          new Date(this.formaSR.controls['FechaSolicitud'].value),
+          'yyyy-MM-dd',
+          'en-GB',
+          '+0500'
+        ),
+      });
+    }
 
     this.srService.ActualizarSR(this.formaSR.value).subscribe((resp) => {
       this.operacionPrincipalService
@@ -1840,8 +1872,12 @@ export class RendicionComponent implements OnInit {
     // Actualizar primero la Forma SR antes de mostrar Datos (para Saldo correcto)
     this.formaSR.patchValue({
       TotalGasto: this.SumaTotalGasto(),
-      // this.formaSR.controls['MontoRI'].value -
-      // this.formaSR.controls['MontoCC'].value,
+      FechaSolicitud: formatDate(
+        new Date(this.formaSR.controls['FechaSolicitud'].value),
+        'yyyy-MM-dd',
+        'en-GB',
+        '+0500'
+      ),
     });
 
     this.srService.ActualizarSR(this.formaSR.value).subscribe((datos) => {
@@ -2126,7 +2162,7 @@ export class RendicionComponent implements OnInit {
                   style: 'tableExample',
                   margin: [60, 5, 0, 0],
                   table: {
-                    widths: [210],
+                    widths: [470],
                     headerRows: 1,
                     body: [
                       [
@@ -2392,16 +2428,12 @@ export class RendicionComponent implements OnInit {
         this.VariablesSistema.Id_Proyecto,
         this.VariablesSistema.Ano
       )
-      .subscribe((resp) => {
-        console.log(resp);
-      });
+      .subscribe((resp) => {});
   }
 
   ActualizarValoresPlanContable() {
     this.planContableService
       .ActualizarValoresPlanContable(this.VariablesSistema.Ano)
-      .subscribe((resp) => {
-        console.log(resp);
-      });
+      .subscribe((resp) => {});
   }
 }

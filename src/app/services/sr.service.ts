@@ -60,7 +60,6 @@ export class SrService {
 
   // Actualizar SR
   ActualizarSR(sr: SRModel) {
-    // console.log(sr);
     return this.http.put(`${this.url}/${sr.Id_SR}`, sr).pipe(
       map((resp: any) => {
         return resp.SR;

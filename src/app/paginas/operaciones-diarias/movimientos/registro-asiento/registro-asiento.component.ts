@@ -224,7 +224,8 @@ export class RegistroAsientoComponent implements OnInit {
               1
             ),
             'yyyy-MM-dd',
-            'en-GB'
+            'en-GB',
+            '+0500'
           ),
           TipoOrigen: this.TipoOrigen,
         });
@@ -911,7 +912,8 @@ export class RegistroAsientoComponent implements OnInit {
       FechaOperacion: formatDate(
         new Date(operacion.FechaOperacion),
         'yyyy-MM-dd',
-        'en-GB'
+        'en-GB',
+        '+0500'
       ),
       ResponsableGiro: operacion.RazonSocial,
       RUCResponsableGiro: operacion.RUCAuxiliar,
@@ -932,7 +934,8 @@ export class RegistroAsientoComponent implements OnInit {
       FechaComprobante: formatDate(
         new Date(operacion.FechaComprobante),
         'yyyy-MM-dd',
-        'en-GB'
+        'en-GB',
+        '+0500'
       ),
       RUCAuxiliar: operacion.RUCAuxiliar,
       RazonSocial: operacion.RazonSocial,
@@ -1017,7 +1020,8 @@ export class RegistroAsientoComponent implements OnInit {
           FechaOperacion: formatDate(
             new Date(datos.FechaOperacion),
             'yyyy-MM-dd',
-            'en-GB'
+            'en-GB',
+            '+0500'
           ),
 
           ResponsableGiro: datos.ResponsableGiro,
@@ -1130,12 +1134,14 @@ export class RegistroAsientoComponent implements OnInit {
           FechaOperacion: formatDate(
             new Date(datos.FechaOperacion),
             'yyyy-MM-dd',
-            'en-GB'
+            'en-GB',
+            '+0500'
           ),
           FechaComprobante: formatDate(
             new Date(datos.FechaOperacion),
             'yyyy-MM-dd',
-            'en-GB'
+            'en-GB',
+            '+0500'
           ),
         });
 

@@ -162,6 +162,28 @@
                     <div class="form-group">
                       <label
                         class="form-control-label"
+                        for="example3cols1Input"
+                      >
+                        Fecha
+                      </label>
+
+                      <input
+                        class="form-control"
+                        id="example3cols1Input"
+                        placeholder="Fecha Solicitud"
+                        type="date"
+                        [min]="PrimerDia"
+                        [max]="UltimoDia"
+                        formControlName="FechaSolicitud"
+                        [readonly]="true"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- <div class="col-md-2">
+                    <div class="form-group">
+                      <label
+                        class="form-control-label"
                         for="example3cols2Input"
                       >
                         Fecha
@@ -172,13 +194,13 @@
                         id="example3cols2Input"
                         placeholder="Fecha"
                         type="text"
-                        [value]="FechaSolicitud | date: 'dd/LL/yyyy':'UTC'"
+                        [value]="FechaSolicitud"
                         formControlName="FechaSolicitud"
                         autocomplete="off"
                         [readonly]="true"
                       />
                     </div>
-                  </div>
+                  </div> -->
 
                   <div class="col-md-7">
                     <div class="form-group">
@@ -523,7 +545,10 @@
   <br />
   <pre>{{ formaDetalleSR.value | json }}</pre>
   <br />
-  <pre>{{ formaOperacionSaldo.value | json }}</pre> -->
+
+  <pre>{{ formaOperacionSaldo.value | json }}</pre>
+  <br />
+  <pre>{{ formaSR.value | json }}</pre> -->
 </div>
 
 <ng-template #modalFormSaldo>
@@ -590,7 +615,7 @@
           <div class="col-md-12" *ngIf="TotalSaldo < 0">
             <div class="form-group">
               <label class="form-control-label" for="example3cols2Input">
-                N° de Documento
+                N° de Documento CC
               </label>
 
               <input
@@ -598,7 +623,7 @@
                 id="example3cols2Input"
                 placeholder="Descripción"
                 type="text"
-                formControlName="NRI"
+                formControlName="NCC"
                 autocomplete="off"
               />
             </div>
@@ -607,7 +632,7 @@
           <div class="col-md-12" *ngIf="TotalSaldo < 0">
             <div class="form-group">
               <label class="form-control-label" for="example3cols2Input">
-                Monto
+                Monto CC
               </label>
 
               <div class="input-group">
@@ -620,7 +645,7 @@
                   placeholder="Presupuesto"
                   aria-label="Username"
                   aria-describedby="basic-addon1"
-                  formControlName="MontoRI"
+                  formControlName="MontoCC"
                   autocomplete="off"
                 />
               </div>

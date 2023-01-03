@@ -35,14 +35,22 @@ export class TipoDocumentoIdentidadService {
   }
 
   getTipoDocumentoIdentidades() {
-    return this.http.get(this.url);
+    return this.http.get(this.url).pipe(
+      map((resp: any) => {
+        return resp.TipoDocumentoIdentidad;
+      })
+    );
   }
 
-  getTipoDocumentoIdentidad(id: string) {
-    return this.http.get(`${this.url}/${id}`);
+  getTipoDocumentoIdentidad(id: number) {
+    return this.http.get(`${this.url}/${id}`).pipe(
+      map((resp: any) => {
+        return resp.TipoDocumentoIdentidad[0];
+      })
+    );
   }
 
-  eliminarTipoDocumentoIdentidad(id: string) {
+  eliminarTipoDocumentoIdentidad(id: number) {
     return this.http.delete(`${this.url}/${id}`);
   }
 }

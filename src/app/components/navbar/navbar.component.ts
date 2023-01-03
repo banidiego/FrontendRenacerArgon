@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
+import { VariablesSesionModel } from '../../models/VariablesSesion.model';
 import {
   Router,
   Event,
@@ -24,6 +25,12 @@ export class NavbarComponent implements OnInit {
   public listTitles: any[];
   public location: Location;
   sidenavOpen: boolean = true;
+
+  // Nombre e imagen de Sesion
+  VariablesSesion = new VariablesSesionModel();
+  NombresSesion: string;
+  ImagenSesion: string;
+
   constructor(
     location: Location,
     private element: ElementRef,
@@ -52,6 +59,8 @@ export class NavbarComponent implements OnInit {
         console.log(event.error);
       }
     });
+
+    this.CargarInformacion();
   }
 
   ngOnInit() {
@@ -121,5 +130,17 @@ export class NavbarComponent implements OnInit {
   CerrarSesion() {
     localStorage.clear();
     this.route.navigate(['/pagina/login']);
+  }
+
+  CargarInformacion() {
+    if (localStorage.getItem('VariablesSesion')) {
+      // Como Existe VariablesSistema en lo LocalStorage, simplemente lo carga
+      // console.log('Existe');
+      this.VariablesSesion = JSON.parse(
+        localStorage.getItem('VariablesSesion')
+      );
+      this.NombresSesion = this.VariablesSesion.Nombres;
+      this.ImagenSesion = this.VariablesSesion.Imagen;
+    }
   }
 }

@@ -29,6 +29,7 @@ export interface ChildrenItems2 {
   title?: string;
   type?: string;
 }
+
 // Menu Items
 export const ROUTES: RouteInfo[] = [
   {
@@ -39,7 +40,7 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: 'OperacionesDiarias',
-    title: 'OperacionesDiarias',
+    title: 'Operaciones Diarias',
     type: 'sub',
     icontype: 'ni-collection text-orange',
     collapse: 'examples',
@@ -56,47 +57,7 @@ export const ROUTES: RouteInfo[] = [
     type: 'link',
     icontype: 'fas fa-search text-info',
   },
-  // {
-  //   path: '/components',
-  //   title: 'Búsqueda Rápida',
-  //   type: 'sub',
-  //   icontype: 'fas fa-search text-info',
-  //   collapse: 'components',
-  //   isCollapsed: true,
-  //   children: [
-  //     { path: 'buttons', title: 'Buttons', type: 'link' },
-  //     { path: 'cards', title: 'Cards', type: 'link' },
-  //     { path: 'grid', title: 'Grid', type: 'link' },
-  //     { path: 'notifications', title: 'Notifications', type: 'link' },
-  //     { path: 'icons', title: 'Icons', type: 'link' },
-  //     { path: 'typography', title: 'Typography', type: 'link' },
-  //     {
-  //       path: 'multilevel',
-  //       isCollapsed: true,
-  //       title: 'Multilevel',
-  //       type: 'sub',
-  //       collapse: 'multilevel',
-  //       children: [
-  //         { title: 'Third level menu' },
-  //         { title: 'Just another link' },
-  //         { title: 'One last link' },
-  //       ],
-  //     },
-  //   ],
-  // },
-  // {
-  //   path: '/forms',
-  //   title: 'Forms',
-  //   type: 'sub',
-  //   icontype: 'ni-single-copy-04 text-pink',
-  //   collapse: 'forms',
-  //   isCollapsed: true,
-  //   children: [
-  //     { path: 'elements', title: 'Elements', type: 'link' },
-  //     { path: 'components', title: 'Components', type: 'link' },
-  //     { path: 'validation', title: 'Validation', type: 'link' },
-  //   ],
-  // },
+
   {
     path: 'Reportes',
     title: 'Reportes',
@@ -132,7 +93,7 @@ export const ROUTES: RouteInfo[] = [
         type: 'sub',
         collapse: 'Libros Oficiales',
         children: [
-          { title: 'Diario Simplificado' },
+          { path: 'MovimientoDiario', title: 'Diario Simplificado' },
           { title: 'Caja y Bancos' },
           { title: 'Libro Mayor' },
           { title: 'Registro de Gastos' },
@@ -148,25 +109,17 @@ export const ROUTES: RouteInfo[] = [
     title: 'Configuraciones',
     type: 'sub',
     icontype: 'ni-settings-gear-65 text-green',
-    collapse: 'maps',
+    collapse: 'Configuraciones',
     isCollapsed: true,
+    isCollapsing: true,
     children: [
       {
-        path: 'Contable',
-        isCollapsed: true,
+        path: 'PlanContable',
+
         title: 'Contable',
-        type: 'sub',
-        collapse: 'Contable',
-        children: [{ title: 'Plan de Cuentas' }],
+        type: 'link',
       },
-      {
-        path: 'Proyectos',
-        isCollapsed: true,
-        title: 'Proyectos',
-        type: 'sub',
-        collapse: 'Proyectos',
-        children: [{ title: 'Lista de Proyectos' }],
-      },
+      { path: 'Proyectos', title: 'Proyectos', type: 'link' },
       {
         path: 'Sistema',
         isCollapsed: true,
@@ -174,32 +127,22 @@ export const ROUTES: RouteInfo[] = [
         type: 'sub',
         collapse: 'Sistema',
         children: [
-          { title: 'Medio de Pago' },
-          { title: 'Documentos de Identidad' },
-          { title: 'Tipo de Comprobantes' },
-          { title: 'Usuarios del Sistema' },
+          { title: 'Medio de Pago', path: 'MedioPago', type: 'link' },
+          {
+            title: 'Documentos de Identidad',
+            path: 'DocumentoIdentidad',
+            type: 'link',
+          },
+          {
+            title: 'Tipo de Comprobantes',
+            path: 'TipoComprobantes',
+            type: 'link',
+          },
+          { title: 'Usuarios del Sistema', path: 'Usuarios', type: 'link' },
         ],
       },
     ],
   },
-  // {
-  //   path: '/widgets',
-  //   title: 'Widgets',
-  //   type: 'link',
-  //   icontype: 'ni-archive-2 text-green',
-  // },
-  // {
-  //   path: '/charts',
-  //   title: 'Charts',
-  //   type: 'link',
-  //   icontype: 'ni-chart-pie-35 text-info',
-  // },
-  // {
-  //   path: '/calendar',
-  //   title: 'Calendar',
-  //   type: 'link',
-  //   icontype: 'ni-calendar-grid-58 text-red',
-  // },
 ];
 
 @Component({

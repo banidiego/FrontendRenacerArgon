@@ -96,7 +96,7 @@ export class SolicitudesMesComponent implements OnInit, OnDestroy {
     this.srService
       .ListaSolicitudesMes(Ano, Mes, Id_Proyecto)
       .subscribe((datos: any) => {
-        this.Datos = datos;
+        this.Datos = datos.reverse();
 
         this.temp = this.Datos.map((prop, key) => {
           return {

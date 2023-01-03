@@ -114,9 +114,11 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'tables',
+        path: 'Configuraciones',
         loadChildren: () =>
-          import('./pages/tables/tables.module').then((m) => m.TablesModule),
+          import('./paginas/configuraciones/configuraciones.module').then(
+            (m) => m.ConfiguracionesModule
+          ),
       },
       {
         path: 'maps',

@@ -57,12 +57,13 @@
             style="cursor: pointer"
             [columnMode]="'flex'"
             [headerHeight]="50"
-            [footerHeight]="0"
+            [footerHeight]="50"
             [rowHeight]="'auto'"
             [limit]="entries != -1 ? entries : undefined"
             [rows]="temp"
             [messages]="{
-              emptyMessage: 'No se encontraron registros'
+              emptyMessage: 'No se encontraron registros',
+              totalMessage: 'Solicitudes Totales'
             }"
           >
             <ngx-datatable-column [flexGrow]="0.3">
@@ -86,7 +87,7 @@
                 <span>Fecha</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.FechaSolicitud | date: 'dd-LL-yyyy':'UTC' }}
+                {{ row.FechaSolicitud | date : 'dd-LL-yyyy' : '+0500' }}
               </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column [flexGrow]="0.3">
@@ -94,7 +95,7 @@
                 <span>Presupuesto</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.Presupuesto | number: '1.2-2' }}
+                {{ row.Presupuesto | number : '1.2-2' }}
               </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column [flexGrow]="0.3">
@@ -102,7 +103,7 @@
                 <span>Total Gasto</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.TotalGasto | number: '1.2-2' }}
+                {{ row.TotalGasto | number : '1.2-2' }}
               </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column [flexGrow]="0.6">

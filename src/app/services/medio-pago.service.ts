@@ -34,11 +34,15 @@ export class MedioPagoService {
     );
   }
 
-  getMedioPago(id: string) {
-    return this.http.get(`${this.url}/${id}`);
+  getMedioPago(id: number) {
+    return this.http.get(`${this.url}/${id}`).pipe(
+      map((resp: any) => {
+        return resp.MedioPago[0];
+      })
+    );
   }
 
-  eliminarMedioPago(id: string) {
+  eliminarMedioPago(id: number) {
     return this.http.delete(`${this.url}/${id}`);
   }
 }

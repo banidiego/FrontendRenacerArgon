@@ -40,6 +40,14 @@ export class PlanContableService {
       );
   }
 
+  FiltrarPlanContablePorId(Id_PlanCuenta: number) {
+    return this.http.get(`${this.url}/FiltrarId/${Id_PlanCuenta}`).pipe(
+      map((resp: any) => {
+        return resp.PlanContable[0];
+      })
+    );
+  }
+
   // Guardar CuentaContable
   GuardarCuenta(PlanContable: PlanContableModel) {
     return this.http.post(`${this.url}`, PlanContable).pipe(
@@ -62,7 +70,7 @@ export class PlanContableService {
       );
   }
 
-  eliminarAuxiliar(id: number) {
+  eliminarPlanContable(id: number) {
     return this.http.delete(`${this.url}/${id}`);
   }
 

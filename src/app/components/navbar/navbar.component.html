@@ -115,10 +115,12 @@
           <a class="nav-link pr-0 dropdown-toggle" role="button" dropdownToggle>
             <div class="media align-items-center">
               <span class="avatar avatar-sm rounded-circle">
-                <img alt="Image placeholder" src="assets/img/theme/Bani.jpg" />
+                <img [src]="ImagenSesion" />
               </span>
               <div class="media-body ml-2 d-none d-lg-block">
-                <span class="mb-0 text-sm font-weight-bold">Bani Diego</span>
+                <span class="mb-0 text-sm font-weight-bold">{{
+                  NombresSesion
+                }}</span>
               </div>
             </div>
           </a>

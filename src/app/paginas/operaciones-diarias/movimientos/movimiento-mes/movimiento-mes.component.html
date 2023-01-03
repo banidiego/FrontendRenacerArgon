@@ -50,12 +50,16 @@
             class="bootstrap selection-cell"
             [columnMode]="'force'"
             [headerHeight]="50"
-            [footerHeight]="0"
+            [footerHeight]="50"
             [rowHeight]="'auto'"
             [limit]="entries != -1 ? entries : undefined"
             [rows]="temp"
             [columns]="columns"
             (activate)="onActivate($event)"
+            [messages]="{
+              emptyMessage: 'No se encontraron registros',
+              totalMessage: 'Registros Totales'
+            }"
           >
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>

@@ -1,0 +1,286 @@
+<div class="header bg-default pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0">
+            Configuración del Proyecto
+          </h6>
+
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <a [routerLink]="['/Administrador/Inicio']">
+                  <i class="fas fa-home"> </i>
+                </a>
+              </li>
+
+              <li class="breadcrumb-item">
+                <a> Configuraciones </a>
+              </li>
+              <li class="breadcrumb-item">
+                <a [routerLink]="['/Administrador/Configuraciones/Proyectos']">
+                  Proyectos
+                </a>
+              </li>
+
+              <li aria-current="page" class="breadcrumb-item active">
+                Configuración del Proyecto
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col text-center">
+              <h3 class="mb-0">Proyecto: {{ Nombre_proyecto }}</h3>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-xl-6 text-center">
+            <div class="card">
+              <div class="table align-items-center table-flush table-hover">
+                <table class="table align-items-center table-flush">
+                  <tbody class="list">
+                    <tr style="cursor: pointer">
+                      <th scope="row">
+                        <a
+                          (click)="
+                            AbrirModalNuevoProyecto(modalFormNuevoproyecto)
+                          "
+                        >
+                          <div class="media align-items-center text-default">
+                            <div class="media-body">
+                              <span class="name mb-0 text-sm">
+                                Información del Proyecto
+                              </span>
+                            </div>
+                          </div>
+                        </a>
+                      </th>
+                    </tr>
+                    <tr style="cursor: pointer">
+                      <th scope="row">
+                        <a
+                          [routerLink]="[
+                            '/Administrador/Configuraciones/Proyectos/OpcionesProyecto/',
+                            Id_Proyecto,
+                            'PlanProyecto'
+                          ]"
+                        >
+                          <div class="media align-items-center text-default">
+                            <div class="media-body">
+                              <span class="name mb-0 text-sm">
+                                Plan de Proyecto / Presupuesto
+                              </span>
+                            </div>
+                          </div>
+                        </a>
+                      </th>
+                    </tr>
+
+                    <tr style="cursor: pointer">
+                      <th scope="row">
+                        <a
+                          [routerLink]="[
+                            '/Administrador/Configuraciones/Proyectos/OpcionesProyecto/',
+                            Id_Proyecto,
+                            'SubOrigen'
+                          ]"
+                        >
+                          <div class="media align-items-center text-default">
+                            <div class="media-body">
+                              <span class="name mb-0 text-sm">
+                                Sub Origen
+                              </span>
+                            </div>
+                          </div>
+                        </a>
+                      </th>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="container">
+              <div class="d-flex justify-content-center">
+                <button
+                  mat-raised-button
+                  class="btn btn-primary"
+                  [routerLink]="['/Administrador/Configuraciones/Proyectos']"
+                >
+                  Regresar
+                </button>
+              </div>
+              <br />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Formulario Nuevo Proyecto -->
+<ng-template #modalFormNuevoproyecto>
+  <div class="modal-body p-0">
+    <div class="card bg-secondary border-0 mb-0">
+      <div class="card-body px-lg-5 py-lg-5">
+        <div class="text-center text-muted mb-4">
+          <h3>Modificar Información del Proyecto</h3>
+        </div>
+
+        <form
+          class="example-form"
+          [formGroup]="formaProyecto"
+          novalidate="novalidate"
+          (keydown.enter)="$event.preventDefault()"
+        >
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="form-control-label" for="example3cols2Input">
+                Código de proyecto
+              </label>
+
+              <input
+                class="form-control"
+                id="example3cols2Input"
+                placeholder="Código de proyecto"
+                type="text"
+                formControlName="Codigo_Proyecto"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="form-control-label" for="example3cols2Input">
+                Nombre del Proyecto
+              </label>
+
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Nombre del Proyecto"
+                  aria-label="Username"
+                  aria-describedby="basic-addon1"
+                  formControlName="Nombre_Proyecto"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="form-control-label" for="example3cols2Input">
+                Entidad Cooperante
+              </label>
+
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Entidad Cooperante"
+                  aria-label="Username"
+                  aria-describedby="basic-addon1"
+                  formControlName="Cooperante"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="form-control-label" for="example3cols2Input">
+                Pre-Código Origen
+              </label>
+
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Pre-Código Origen"
+                  aria-label="Username"
+                  aria-describedby="basic-addon1"
+                  formControlName="Origen"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="form-control-label" for="example3cols2Input">
+                Serie
+              </label>
+
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Serie"
+                  aria-label="Username"
+                  aria-describedby="basic-addon1"
+                  formControlName="Serie"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="form-control-label" for="example3cols2Input">
+                Estado del Proyecto
+              </label>
+              <select
+                class="form-control"
+                id="exampleFormControlSelect1"
+                formControlName="Estado"
+              >
+                <option value="1" selected>Activo</option>
+                <option value="0">Finalizado</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <button
+              type="button"
+              class="btn btn-primary my-4"
+              (click)="GuardarProyecto()"
+            >
+              Guardar
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary my-4"
+              (click)="formModalProyecto.hide()"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- 
+<pre>{{ formaProyecto.value | json }}</pre>
+<br /> -->

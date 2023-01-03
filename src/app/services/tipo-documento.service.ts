@@ -37,11 +37,15 @@ export class TipoDocumentoService {
     );
   }
 
-  getTipoDocumento(id: string) {
-    return this.http.get(`${this.url}/${id}`);
+  getTipoDocumento(id: number) {
+    return this.http.get(`${this.url}/${id}`).pipe(
+      map((resp: any) => {
+        return resp.TipoDocumento[0];
+      })
+    );
   }
 
-  eliminarTipoDocumento(id: string) {
+  eliminarTipoDocumento(id: number) {
     return this.http.delete(`${this.url}/${id}`);
   }
 

@@ -205,7 +205,8 @@ export class RegistroGastoComponent implements OnInit {
               1
             ),
             'yyyy-MM-dd',
-            'en-GB'
+            'en-GB',
+            '+0500'
           ),
         });
 
@@ -388,7 +389,7 @@ export class RegistroGastoComponent implements OnInit {
       Id_DetalleSR: new FormControl(0),
       DescripcionDetalle: new FormControl(''),
       TC: new FormControl(1),
-      Codigo_MedioPago: new FormControl('009'),
+      Codigo_MedioPago: new FormControl('001'),
       ChequeSoles: new FormControl(''),
       ChequeDolares: new FormControl(''),
       Codigo_TipoDocumento: new FormControl('00'),
@@ -505,13 +506,15 @@ export class RegistroGastoComponent implements OnInit {
     this.PrimerDia = formatDate(
       new Date(this.VariablesSistema.Ano, this.NumeroMes, 1),
       'yyyy-MM-dd',
-      'en-GB'
+      'en-GB',
+      '+0500'
     );
 
     this.UltimoDia = formatDate(
       new Date(this.VariablesSistema.Ano, this.NumeroMes + 1, 0),
       'yyyy-MM-dd',
-      'en-GB'
+      'en-GB',
+      '+0500'
     );
   }
 
@@ -745,6 +748,7 @@ export class RegistroGastoComponent implements OnInit {
       this.formaOperacion.patchValue({
         DescripcionDetalle:
           this.formaOperacion.controls['DescripcionOperacion'].value,
+        FechaOperacion: this.formaOperacion.controls['FechaComprobante'].value,
       });
 
       // Si Existe el Id_Operación, se actualiza
@@ -858,7 +862,8 @@ export class RegistroGastoComponent implements OnInit {
             1
           ),
           'yyyy-MM-dd',
-          'en-GB'
+          'en-GB',
+          '+0500'
         ),
       });
 
@@ -989,7 +994,7 @@ export class RegistroGastoComponent implements OnInit {
       CodigoOperacion: this.CodigoOperacion,
 
       DescripcionDetalle: '',
-      Codigo_MedioPago: '009',
+      Codigo_MedioPago: '001',
       Cheque: '',
       ChequeSoles: '',
       ChequeDolares: '',
@@ -1070,7 +1075,8 @@ export class RegistroGastoComponent implements OnInit {
       FechaOperacion: formatDate(
         new Date(operacion.FechaOperacion),
         'yyyy-MM-dd',
-        'en-GB'
+        'en-GB',
+        '+0500'
       ),
       ResponsableGiro: operacion.ResponsableGiro,
       RUCResponsableGiro: operacion.RUCResponsableGiro,
@@ -1091,7 +1097,8 @@ export class RegistroGastoComponent implements OnInit {
       FechaComprobante: formatDate(
         new Date(operacion.FechaComprobante),
         'yyyy-MM-dd',
-        'en-GB'
+        'en-GB',
+        '+0500'
       ),
       RUCAuxiliar: operacion.RUCAuxiliar,
       RazonSocial: operacion.RazonSocial,
@@ -1177,7 +1184,8 @@ export class RegistroGastoComponent implements OnInit {
               1
             ),
             'yyyy-MM-dd',
-            'en-GB'
+            'en-GB',
+            '+0500'
           ),
           ResponsableGiro: datos.ResponsableGiro,
           CodigoOperacion: datos.CodigoOperacion,
@@ -1291,7 +1299,8 @@ export class RegistroGastoComponent implements OnInit {
               1
             ),
             'yyyy-MM-dd',
-            'en-GB'
+            'en-GB',
+            '+0500'
           ),
         });
 

@@ -76,6 +76,15 @@ export class SrService {
     );
   }
 
+  // Busca la Información del SR a través del Id_SR
+  SolicitudesTodo() {
+    return this.http.get(`${this.url}/`).pipe(
+      map((resp: any) => {
+        return resp.Solicitudes;
+      })
+    );
+  }
+
   // ==========================================
   // Funcion que Convierte la Fecha Javascript en Fecha Mysql (String)
   // ==========================================

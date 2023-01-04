@@ -22,6 +22,14 @@ export class OperacionService {
     );
   }
 
+  ListaOperacionesTodo() {
+    return this.http.get(`${this.url}/`).pipe(
+      map((resp: any) => {
+        return resp.operaciones;
+      })
+    );
+  }
+
   ListaOperacionesIdDetalleSRRegistroGasto(Id_DetalleSR: number) {
     return this.http.get(`${this.url}/RegistroGasto/${Id_DetalleSR}`).pipe(
       map((resp: any) => {

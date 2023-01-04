@@ -53,9 +53,26 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: 'BusquedaRapida',
-    title: 'Búsqueda Rápida',
-    type: 'link',
+    title: 'BusquedaRapida',
+    type: 'sub',
     icontype: 'fas fa-search text-info',
+    collapse: 'examples',
+    isCollapsed: true,
+    children: [
+      { path: 'BuscarComprobante', title: 'Buscar Comprobante', type: 'link' },
+      { path: 'BuscarSR', title: 'Buscar S/R', type: 'link' },
+      { path: 'BuscarAuxiliar', title: 'Buscar Auxiliar', type: 'link' },
+      {
+        path: 'SolicitudesPorRendir',
+        title: 'Solicitudes por Rendir',
+        type: 'link',
+      },
+      {
+        path: 'AsientosNoCerrados',
+        title: 'Asientos no Cerrados',
+        type: 'link',
+      },
+    ],
   },
 
   {

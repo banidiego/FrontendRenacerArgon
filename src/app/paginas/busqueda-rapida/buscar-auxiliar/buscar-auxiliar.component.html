@@ -1,0 +1,396 @@
+<div class="header bg-default pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0">Auxiliares</h6>
+
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <a [routerLink]="['/Administrador/Inicio']">
+                  <i class="fas fa-home"> </i>
+                </a>
+              </li>
+
+              <li class="breadcrumb-item">
+                <a> Búsqueda Rápida </a>
+              </li>
+
+              <li aria-current="page" class="breadcrumb-item active">
+                Auxiliares
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="mb-0">Auxiliares</h3>
+        </div>
+        <div class="dataTables_wrapper py-4">
+          <div class="row">
+            <div class="col-sm-12 col-md-2">
+              <div id="datatable_filter" class="dataTables_filter">
+                <label>
+                  <input
+                    type="search"
+                    class="form-control form-control-sm"
+                    placeholder="Buscar"
+                    aria-controls="datatable"
+                    (keyup)="filterBusqueda($event)"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+          <ngx-datatable
+            class="bootstrap selection-cell"
+            [columnMode]="'flex'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="entries != -1 ? entries : undefined"
+            [rows]="temp"
+            [messages]="{
+              emptyMessage: 'No hay Asientos por Cerrar :)',
+              totalMessage: 'Registros Totales'
+            }"
+          >
+            <ngx-datatable-column [flexGrow]="0.3">
+              <ng-template ngx-datatable-header-template>
+                <span>DNI / RUC</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.RUC }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [flexGrow]="1.3">
+              <ng-template ngx-datatable-header-template>
+                <span>Razón Social</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.RazonSocial }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column
+              name="Actions"
+              sortable="false"
+              prop="id"
+              [flexGrow]="0.6"
+            >
+              <ng-template
+                let-row="row"
+                let-value="value"
+                ngx-datatable-cell-template
+                class="text-center"
+              >
+                <a
+                  class="btn btn-link btn-just-icon like"
+                  title="Modificar"
+                  (click)="
+                    AbrirModalSunat(modalFormSUNAT);
+                    CargarAuxiliar(row.Id_Auxiliar)
+                  "
+                  style="cursor: pointer"
+                  ><i class="fa-solid fa-pencil"></i
+                ></a>
+
+                <a
+                  class="btn btn-link btn-just-icon like"
+                  style="cursor: pointer"
+                  title="Eliminar"
+                  (click)="EliminarAuxiliar(row.Id_Auxiliar)"
+                  ><i class="fa-solid fa-ban text-danger"></i
+                ></a>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+          <hr />
+          <div class="d-flex justify-content-between">
+            <div class="">
+              &nbsp;
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="AbrirModalSunat(modalFormSUNAT)"
+              >
+                Nuevo Auxiliar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Formulario SUNAT -->
+<ng-template #modalFormSUNAT>
+  <div class="modal-body p-0">
+    <div class="card bg-secondary border-0 mb-0">
+      <div class="card-body px-lg-5 py-lg-5">
+        <div class="text-center text-muted mb-4">
+          <h3>Nuevo Auxiliar</h3>
+        </div>
+
+        <form
+          [formGroup]="formaAuxiliar"
+          novalidate="novalidate"
+          (keydown.enter)="$event.preventDefault()"
+        >
+          <div class="form-group mb-3" [ngClass]="{ focused: focus === true }">
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fa-solid fa-id-badge"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                placeholder="DNI / RUC"
+                type="text"
+                (focus)="focus = true"
+                (blur)="focus = false"
+                formControlName="RUC"
+                autocomplete="off"
+              />
+            </div>
+            <div class="text-center">
+              <button
+                type="button"
+                class="btn btn-primary my-4"
+                (click)="BuscarAuxiliarSUNAT()"
+              >
+                Importar de SUNAT
+              </button>
+              <hr />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-control-label" for="example3cols2Input">
+              Tipo de Documento de Identidad
+            </label>
+            <select
+              class="form-control"
+              id="exampleFormControlSelect1"
+              formControlName="Codigo_TipoDocumentoIdentidad"
+            >
+              <option
+                *ngFor="let TipoDocumento of TipoDocumentoIdentidad"
+                [value]="TipoDocumento.Codigo_TipoDocumentoIdentidad"
+              >
+                {{
+                  TipoDocumento.Codigo_TipoDocumentoIdentidad +
+                    ' | ' +
+                    TipoDocumento.Descripcion
+                }}
+              </option>
+            </select>
+          </div>
+
+          <div
+            class="form-group"
+            *ngIf="
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '0' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '1' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '4' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '7' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '11' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                'A'
+            "
+          >
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fa-solid fa-square-pen"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                placeholder="Apellido Paterno"
+                type="text"
+                formControlName="ApellidoPaterno"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div
+            class="form-group"
+            *ngIf="
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '0' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '1' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '4' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '7' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '11' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                'A'
+            "
+          >
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fa-solid fa-square-pen"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                placeholder="Apellido Materno"
+                type="text"
+                formControlName="ApellidoMaterno"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div
+            class="form-group"
+            *ngIf="
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '0' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '1' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '4' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '7' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '11' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                'A'
+            "
+          >
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fa-solid fa-square-pen"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                placeholder="Nombres"
+                type="text"
+                formControlName="Nombres"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div
+            class="form-group"
+            *ngIf="
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '0' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '1' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '4' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '7' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                '11' ||
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+                'A'
+            "
+          >
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fa-solid fa-location-dot"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                placeholder="Dirección"
+                type="text"
+                formControlName="Direccion"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fa-solid fa-building"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                placeholder="Razón Social"
+                type="text"
+                formControlName="RazonSocial"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div
+            class="form-group"
+            *ngIf="
+              formaAuxiliar.controls['Codigo_TipoDocumentoIdentidad'].value ==
+              '6'
+            "
+          >
+            <div class="input-group input-group-alternative">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fa-solid fa-location-dot"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                placeholder="Dirección"
+                type="text"
+                formControlName="Direccion"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div class="text-center">
+            <button
+              type="button"
+              class="btn btn-primary my-4"
+              (click)="BuscarAuxiliarLocal()"
+            >
+              Guardar
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary my-4"
+              (click)="CerrarModal()"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- <pre>{{ formaAuxiliar.value | json }}</pre> -->

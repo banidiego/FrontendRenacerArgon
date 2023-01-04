@@ -80,6 +80,15 @@ export class OperacionPrincipalService {
     );
   }
 
+  // Busca la Información de la Operación Principal a través del Id_OperaciónPrincipal
+  OperacionesProncipalesNoCuadradas() {
+    return this.http.get(`${this.url}/`).pipe(
+      map((resp: any) => {
+        return resp.OperacionPrincipal;
+      })
+    );
+  }
+
   eliminarOperacionPrincipal(id: string) {
     return this.http.delete(`${this.url}/${id}`);
   }

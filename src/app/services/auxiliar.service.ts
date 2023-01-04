@@ -103,7 +103,7 @@ export class AuxiliarService {
     );
   }
 
-  getAuxiliar(id: string) {
+  getAuxiliar(id: number) {
     return this.http.get(`${this.url}/${id}`).pipe(
       map((resp: any) => {
         return resp.auxiliar[0];

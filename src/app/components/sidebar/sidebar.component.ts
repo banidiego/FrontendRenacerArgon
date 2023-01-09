@@ -82,6 +82,7 @@ export const ROUTES: RouteInfo[] = [
     icontype: 'ni-chart-pie-35 text-pink',
     collapse: 'tables',
     isCollapsed: true,
+    isCollapsing: true,
     children: [
       {
         path: 'Administrativo',
@@ -89,7 +90,10 @@ export const ROUTES: RouteInfo[] = [
         title: 'Administrativo',
         type: 'sub',
         collapse: 'Administrativo',
-        children: [{ title: 'SR del Mes' }, { title: 'Gastos Ejecutados' }],
+        children: [
+          { path: 'SRMensual', title: 'SR del Mes', type: 'link' },
+          { title: 'Gastos Ejecutados' },
+        ],
       },
       {
         path: 'Contable',

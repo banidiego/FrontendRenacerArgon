@@ -25,6 +25,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/fullcalendar/main.min.css",
               "src/assets/vendor/nucleo/css/nucleo.css",
               "src/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css",
@@ -35,7 +36,10 @@
               "src/assets/scss/argon.scss",
               "node_modules/@swimlane/ngx-datatable/themes/bootstrap.css"
             ],
-            "scripts": ["node_modules/chart.js/dist/Chart.min.js"],
+            "scripts": [
+              "node_modules/chart.js/dist/Chart.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ],
             "allowedCommonJsDependencies": ["chart.js", "list.js"]
           },
           "configurations": {

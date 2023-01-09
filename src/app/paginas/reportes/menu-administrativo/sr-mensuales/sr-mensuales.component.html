@@ -1,0 +1,269 @@
+<div class="header bg-default pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0">
+            Solicitudes / Rendiciones del Mes
+          </h6>
+
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <a [routerLink]="['/Administrador/Inicio']">
+                  <i class="fas fa-home"> </i>
+                </a>
+              </li>
+
+              <li class="breadcrumb-item">
+                <a> Reportes </a>
+              </li>
+
+              <li class="breadcrumb-item">
+                <a> Administrativo </a>
+              </li>
+
+              <li aria-current="page" class="breadcrumb-item active">
+                Solicitudes / Rendiciones del Mes
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="mb-0">SOLICITUDES Y RENDICIONES DE GASTOS DEL MES</h3>
+          <app-menu-informacion></app-menu-informacion>
+        </div>
+        <div class="dataTables_wrapper py-4">
+          <ngx-datatable
+            class="bootstrap selection-cell"
+            [columnMode]="'flex'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="50"
+            [rows]="Datos"
+            [summaryRow]="true"
+            [summaryPosition]="'bottom'"
+            [summaryHeight]="76"
+            [loadingIndicator]="true"
+            [messages]="{
+              emptyMessage: 'No se encontraron registros',
+              totalMessage: 'Registros Totales'
+            }"
+          >
+            <ngx-datatable-column [flexGrow]="0.3" [cellClass]="Centrar">
+              <ng-template ngx-datatable-header-template>
+                <span>Fecha Solicitud</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.FechaSolicitud | date : 'dd/MM/yyyy' : '+0500' }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [flexGrow]="0.2" [cellClass]="Centrar">
+              <ng-template ngx-datatable-header-template>
+                <span>Número </span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Numero }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [flexGrow]="0.6">
+              <ng-template ngx-datatable-header-template>
+                <span>Descripción </span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Descripcion }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column
+              [flexGrow]="0.3"
+              [summaryTemplate]="TotalesTitulo"
+            >
+              <ng-template ngx-datatable-header-template>
+                <span>Responsable</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Responsable }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column
+              [flexGrow]="0.2"
+              [cellClass]="ColorPresupuesto"
+              [summaryTemplate]="SumaPresupuesto"
+            >
+              <ng-template ngx-datatable-header-template>
+                <span class="text-center">Presupuesto</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.Presupuesto | number : '1.2-2' }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [flexGrow]="0.2" [cellClass]="Centrar">
+              <ng-template ngx-datatable-header-template>
+                <span>R/I</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.NRI }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column
+              [flexGrow]="0.2"
+              [cellClass]="ColorMontoRICC"
+              [summaryTemplate]="SumaRI"
+            >
+              <ng-template ngx-datatable-header-template>
+                <span>Monto R/I</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.MontoRI | number : '1.2-2' }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [flexGrow]="0.2" [cellClass]="Centrar">
+              <ng-template ngx-datatable-header-template>
+                <span>C/C</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.NCC }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column
+              [flexGrow]="0.2"
+              [cellClass]="ColorMontoRICC"
+              [summaryTemplate]="SumaCC"
+            >
+              <ng-template ngx-datatable-header-template>
+                <span>Monto C/C</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.MontoCC | number : '1.2-2' }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column
+              [flexGrow]="0.2"
+              [cellClass]="ColorGastoTotal"
+              [summaryTemplate]="SumaGasto"
+            >
+              <ng-template ngx-datatable-header-template>
+                <span>Gasto Total</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.TotalGasto | number : '1.2-2' }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [flexGrow]="0.3">
+              <ng-template ngx-datatable-header-template>
+                <span>Fecha Rendición</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.FechaRendicion | date : 'dd/MM/yyyy' : '+0500' }}
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+
+          <ng-template #SumaPresupuesto>
+            <h5 style="font-weight: bold; height: 13px !important">
+              {{ TotalPresupuesto | number : '1.2-2' }}
+            </h5>
+          </ng-template>
+
+          <ng-template #SumaRI>
+            <h5 style="font-weight: bold; height: 13px !important">
+              {{ TotalRI | number : '1.2-2' }}
+            </h5>
+          </ng-template>
+
+          <ng-template #SumaCC>
+            <h5 style="font-weight: bold; height: 13px !important">
+              {{ TotalCC | number : '1.2-2' }}
+            </h5>
+          </ng-template>
+
+          <ng-template #SumaGasto>
+            <h5 style="font-weight: bold; height: 13px !important">
+              {{ TotalGasto | number : '1.2-2' }}
+            </h5>
+          </ng-template>
+
+          <ng-template #TotalesTitulo>
+            <h5
+              style="font-weight: bold; height: auto !important"
+              class="text-center align-middle"
+            >
+              TOTALES
+            </h5>
+          </ng-template>
+
+          <div class="d-flex justify-content-between">
+            <div class="">
+              &nbsp; &nbsp;
+              <button
+                class="btn btn-icon btn-3 btn-success"
+                type="button"
+                (click)="CrearPDF()"
+              >
+                <span class="btn-inner--icon"
+                  ><i class="fas fa-print"></i
+                ></span>
+                <span class="btn-inner--text">Imprimir</span>
+              </button>
+            </div>
+            <div class="">
+              <p
+                style="display: inline; font-weight: bold"
+                class="text-warning"
+              >
+                Total de Gasto Ejecutado:
+              </p>
+
+              <p style="display: inline; font-weight: bold" class="text-black">
+                S/ {{ TotalGasto + TotalRI - TotalCC | number : '1.2-2' }}
+              </p>
+              &nbsp; &nbsp; &nbsp; &nbsp;
+            </div>
+          </div>
+
+          <!-- Mostrar Saldo -->
+
+          <!-- <div class="d-flex justify-content-end">
+            <div class="">
+              <p
+                style="display: inline; font-weight: bold"
+                class="text-warning"
+              >
+                Saldo:
+              </p>
+
+              <p style="display: inline; font-weight: bold" class="text-black">
+                S/
+                {{
+                  TotalPresupuesto - (TotalGasto + TotalRI - TotalCC)
+                    | number : '1.2-2'
+                }}
+              </p>
+              &nbsp; &nbsp; &nbsp; &nbsp;
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,19 +1,36 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  CommonModule,
+  DatePipe,
+  DecimalPipe,
+  TitleCasePipe,
+} from '@angular/common';
 
-import { ReportesRoutingModule } from './reportes-routing.module';
-import { MenuAdministrativoComponent } from './menu-administrativo/menu-administrativo.component';
 import { MenuContableComponent } from './menu-contable/menu-contable.component';
 import { LibrosOficialesComponent } from './libros-oficiales/libros-oficiales.component';
 import { PresupuestoComponent } from './presupuesto/presupuesto.component';
+import { SrMensualesComponent } from './menu-administrativo/sr-mensuales/sr-mensuales.component';
+import { GastosEjecutadosComponent } from './menu-administrativo/gastos-ejecutados/gastos-ejecutados.component';
+import { RouterModule } from '@angular/router';
+
+import { ReportesRoutes } from './reportes.routing';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { CompartidoModule } from '../compartido/compartido.module';
 
 @NgModule({
   declarations: [
-    MenuAdministrativoComponent,
     MenuContableComponent,
     LibrosOficialesComponent,
     PresupuestoComponent,
+    SrMensualesComponent,
+    GastosEjecutadosComponent,
   ],
-  imports: [CommonModule, ReportesRoutingModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(ReportesRoutes),
+    NgxDatatableModule,
+    CompartidoModule,
+  ],
+  providers: [DatePipe, TitleCasePipe, DecimalPipe],
 })
 export class ReportesModule {}
